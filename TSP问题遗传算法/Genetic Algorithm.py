@@ -10,7 +10,12 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import time
- 
+
+import os
+
+parent_path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(parent_path)
+print(os.getcwd())
 def coordinate_init(size):
     # 产生坐标字典
     coordinate_dict = {}
@@ -114,7 +119,7 @@ def veriation(my_list,size):#变异
 
 if __name__=="__main__":
     
-    data = create_init_dict('verify_order_postion_10.csv')
+    data = create_init_dict(r'verify_order_position_10.csv')
     print (data)
     start = time.time()
     # size=10
@@ -122,7 +127,7 @@ if __name__=="__main__":
     gen=2000#进化代数
     pm=0.1#变异率
     # coordinate_dict_1=coordinate_init(size)
-    coordinate_dict=create_init_dict('verify_order_postion_10.csv')
+    coordinate_dict=create_init_dict(r'verify_order_position_10.csv')
     size=len(coordinate_dict)-2
     print ('--',coordinate_dict)
     print (size)

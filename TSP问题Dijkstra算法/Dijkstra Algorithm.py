@@ -6,6 +6,11 @@ Created on Wed Apr 22 16:56:25 2020
 @author: andrew
 """
 
+import os
+parent_path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(parent_path)
+print(os.getcwd())
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import time

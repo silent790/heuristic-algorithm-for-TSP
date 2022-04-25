@@ -5,6 +5,11 @@ Created on Mon Apr 20 18:41:02 2020
 
 @author: andrew
 """
+import os
+parent_path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(parent_path)
+print(os.getcwd())
+
 import pandas as pd
 import math
 import random

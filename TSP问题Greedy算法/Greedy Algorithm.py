@@ -5,6 +5,11 @@ Created on Wed Apr 22 19:36:37 2020
 
 @author: andrew
 """
+import os
+parent_path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(parent_path)
+print(os.getcwd())
+
 
 import pandas as pd
 import numpy as np
@@ -110,16 +115,16 @@ if __name__=="__main__":
             if k in s:
                 flag = 1
             if (flag==0) and (dist[k][s[i-1]] < Detemp):
-                j = k;
-                Detemp=dist[k][s[i - 1]];
+                j = k
+                Detemp=dist[k][s[i - 1]]
             k+=1
             if k>=n:
-                break;
+                break
         s.append(j)
-        i+=1;
+        i+=1
         sumpath+=Detemp
         if i>=n:
-            break;
+            break
     sumpath+=dist[0][j]
     end = time.clock()
     print("结果：")
