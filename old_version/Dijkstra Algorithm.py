@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr 22 19:36:37 2020
+Created on Wed Apr 22 16:56:25 2020
 
 @author: andrew
 """
 import os
-parent_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(parent_path)
 print(os.getcwd())
 
 import pandas as pd
-import numpy as np
-import math
-import time
-import sys
 import matplotlib.pyplot as plt
-
+import time
 
 def init_dis_matrix(length):
     distance_matrix = [[0 for col in range(length)] for raw in range(length)]
@@ -40,6 +36,42 @@ def getdistance(city_x,city_y,n_len,distance):
             if distance[i][j] == 0:
                 distance[i][j] = 0
                 
+                
+def dijkstra(graph,src):    
+    nodes = [i for i in range(len(graph))]  
+    visited = []
+    if src in nodes:
+        visited.append(src)
+        nodes.remove(src)
+    else:
+        return None
+    distance = {src:0}
+    for i in nodes:
+        distance[i] = graph[src][i]
+    
+    path = {src:{src:[]}}
+    print (path)
+    k=pre=src
+    while nodes:
+        mid_distance = float('inf')
+        for v in visited:
+            for d in nodes:
+                new_distance = graph[src][v] + graph[v][d]
+                if new_distance < mid_distance:
+                    mid_distance = new_distance
+                    graph[src][d] = new_distance
+                    k=d
+                    pre=v
+        distance[k] = mid_distance
+        path[src][k]=[i for i in path[src][pre]]
+        path[src][k].append(k)
+        
+        visited.append(k)
+        nodes.remove(k)
+        print (visited,nodes)
+    return distance,path
+    
+
 def draw(best,city_x,city_y,n_len):
     result_x = [0 for col in range(n_len+1)]
     result_y = [0 for col in range(n_len+1)]
@@ -60,74 +92,29 @@ def draw(best,city_x,city_y,n_len):
     plt.xlabel(u"x") #X轴标签
     plt.ylabel(u"y") #Y轴标签
     plt.title("Foodhwy Route Plan") #标题
-    
     plt.show()
-    plt.close(0)     
-
+    plt.close(0)         
+    
+    
 if __name__=="__main__":
-    
-    # dataframe = pd.read_csv("./TSP10cities.tsp",sep=" ",header=None)
-    # v = dataframe.iloc[:,1:3]
-    
-    # train_v= np.array(v)
-    # train_d=train_v
-    # dist = np.zeros((train_v.shape[0],train_d.shape[0]))
-    
-    
+
     start = time.time()
-    city_x,city_y = load_position('verify_order_position_10.csv')
+    city_x,city_y = load_position('data\\verify_order_position_10.csv')
     end = time.time()
     print ('read time')
     print (start - end)
     n_len = len(city_x)
     city_x = [x for x in city_x]
     city_y = [x for x in city_y]
-    distance = init_dis_matrix(n_len)
-    getdistance(city_x,city_y,n_len,distance)
-    dist = np.array(distance)
+    distence = init_dis_matrix(n_len)
+    getdistance(city_x,city_y,n_len,distence)
+    src = 0
     
-    #计算距离矩阵
-    # for i in range(train_v.shape[0]):
-    #     for j in range(train_d.shape[0]):
-    #         dist[i,j] = math.sqrt(np.sum((train_v[i,:]-train_d[j,:])**2))
-    # print ('------------',type(dist))
-    """
-    s:已经遍历过的城市
-    dist：城市间距离矩阵
-    sumpath:目前的最小路径总长度
-    Dtemp：当前最小距离
-    flag：访问标记
-    """
-    i=1
-    n=dist.shape[0]
-    j=0
-    sumpath=0
-    s=[]
-    s.append(0)
-    start = time.time()
-    while True:
-        k=1
-        Detemp=sys.maxsize
-        while True:
-            l=0
-            flag=0
-            if k in s:
-                flag = 1
-            if (flag==0) and (dist[k][s[i-1]] < Detemp):
-                j = k
-                Detemp=dist[k][s[i - 1]]
-            k+=1
-            if k>=n:
-                break
-        s.append(j)
-        i+=1
-        sumpath+=Detemp
-        if i>=n:
-            break
-    sumpath+=dist[0][j]
-    end = time.time()
-    print("结果：")
-    print('最优路径',s)
-    print('最佳距离',sumpath)
-    print("程序的运行时间是：%s"%(end-start))
-    draw(s,city_x,city_y,n_len)   
+    dis,path = dijkstra(distence,src)
+    print (dis,'  path:  ',path)
+    sum_dis = sum(list(dis.values()))
+    path_best = list(path[0].keys())
+    print ('最佳路线： ',path_best)
+    print ('最佳距离： ',sum_dis)
+    draw(path_best,city_x,city_y,n_len)       
+    

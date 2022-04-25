@@ -6,7 +6,7 @@ Created on Mon Apr 20 18:41:02 2020
 @author: andrew
 """
 import os
-parent_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(parent_path)
 print(os.getcwd())
 
@@ -15,7 +15,6 @@ import math
 import random
 import matplotlib.pyplot as plt
 import sys
-# from matplotlib.mlab import dist
 import copy
 import time
 
@@ -166,7 +165,7 @@ def solve(file_name):
     return best
 if __name__=="__main__":
     start = time.time()
-    best = solve('verify_order_postion_10.csv')
+    best = solve(r'data\verify_order_position_20.csv')
     end = time.time()
     print ('time : ',end-start)
     print (best)
