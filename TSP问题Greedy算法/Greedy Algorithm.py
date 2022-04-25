@@ -10,7 +10,6 @@ parent_path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(parent_path)
 print(os.getcwd())
 
-
 import pandas as pd
 import numpy as np
 import math
@@ -83,9 +82,9 @@ if __name__=="__main__":
     n_len = len(city_x)
     city_x = [x for x in city_x]
     city_y = [x for x in city_y]
-    distence = init_dis_matrix(n_len)
-    getdistance(city_x,city_y,n_len,distence)
-    dist = np.array(distence)
+    distance = init_dis_matrix(n_len)
+    getdistance(city_x,city_y,n_len,distance)
+    dist = np.array(distance)
     
     #计算距离矩阵
     # for i in range(train_v.shape[0]):
@@ -105,7 +104,7 @@ if __name__=="__main__":
     sumpath=0
     s=[]
     s.append(0)
-    start = time.clock()
+    start = time.time()
     while True:
         k=1
         Detemp=sys.maxsize
@@ -126,7 +125,7 @@ if __name__=="__main__":
         if i>=n:
             break
     sumpath+=dist[0][j]
-    end = time.clock()
+    end = time.time()
     print("结果：")
     print('最优路径',s)
     print('最佳距离',sumpath)

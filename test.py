@@ -1,2 +1,3 @@
-with open(r"TSP问题遗传算法\verify_order_position_10.csv", "r") as f:
-    data = f.read()
+import numpy as np
+
+print(np.argmin([2,3,0,1]))
